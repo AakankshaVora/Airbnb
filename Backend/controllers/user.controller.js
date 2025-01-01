@@ -130,3 +130,60 @@ export const bookProperty = async (req, res, next) => {
     return next(err);
   }
 };
+
+export const getBookedProperty = async(req,res,next)=>{
+  try{
+      const userJWT=req.user;
+      const user=await User.findById(userJWT.id).populate({
+          path:"bookings",
+          model:"property"
+      });
+      const bookedProperty=user.purchased;
+      return res.status(200).json(bookProperty);
+  }catch(err){
+      next(err)
+  }
+};
+
+export const addToFavourites=async(req,res,next)=>{
+  try{
+      const {propertyId}=req.body;
+      const userJWT=req.user;
+      const user=await User.findById(userJWT.id)
+      if(!user.favourites.includes(propertyId)){
+          user.favourites.push(propertyId);
+          await user.save();
+      }
+      return res.status(200)
+              .json({message:"Property added to favourites successfully!!",user});
+  }catch(err){
+      next(err);
+  }
+};
+
+export const removeFromeFavourites=async(req,res,next)=>{
+  try{
+      const {propertyId}=req.body;
+      const userJWT=req.user;
+      const user=await User.findById(userJWT.id)
+      user.favourites=user.favourites.filter((fav)=>!fav.equals(propertyId));
+      await user.save();
+      return res.status(200)
+                .json({message:"Property removed from Favourites!!!",user})
+  }catch(err){
+      next(err)
+  }
+};
+
+export const getUserFavourites=async(req,res,next)=>{
+  try{
+      const userId=req.user.id;
+      const user=await User.findById(userId).populate("favourites").exec();
+      if(!user){
+          return next(createError(404,"User Not Found"));
+      }
+      return res.status(200).json(user?.favourites)
+  }catch(err){
+
+  }
+};
