@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropertyCard from "../componnents/Cards/PropertyCard";
-import { getAllCourses, getAllProperty } from "../api";
+import { getAllCourses, getAllProperties } from "../api";
 import { CircularProgress } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
@@ -42,204 +42,44 @@ const CardWrapper = styled.div`
 `;
 
 const PropertyListing = () => {
-  const [properties, setProperties] = useState([
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29824860/pexels-photo-29824860/free-photo-of-stunning-calanques-view-in-provence-france.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Beautiful Beach House",
-      desc: "A stunning house located near the beach with amazing sea views.",
-      rating: "4.5",
-      location: "Los, Angles",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29816143/pexels-photo-29816143/free-photo-of-modern-architectural-structure-in-valencia-spain.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Royal Heritage Haven",
-      desc: "A grand palace with intricate carvings, vibrant frescoes, and rich cultural history dating back centuries.",
-      rating: "4",
-      location: "Paris, France",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29809979/pexels-photo-29809979/free-photo-of-sunset-over-scenic-coastal-path-at-gaztelugatxe.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Timeless Cityscape",
-      desc: "A cobblestone street surrounded by ancient buildings, quaint cafes, and iconic landmarks.",
-      rating: "3.5",
-      location: "Rome, Italy",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29794380/pexels-photo-29794380/free-photo-of-scenic-winter-view-of-cortina-d-ampezzo-alps.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Majestic Palace Retreat",
-      desc: "A historic palace with grand courtyards, ornate interiors, and centuries-old stories",
-      rating: "3",
-      location: "London, UK",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29790272/pexels-photo-29790272/free-photo-of-golden-sunset-over-tranquil-coastal-waters.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Frosted Pines Chalet",
-      desc: "A cozy chalet amidst snowy landscapes with fireplaces and hot cocoa waiting for you.",
-      rating: "4",
-      location: "Zurich, Switzerland",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/673018/pexels-photo-673018.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Rocky Ridge Adventure",
-      desc: "Rugged mountains with steep trails, perfect for climbing and adventure seekers.",
-      rating: "4.5",
-      location: "Sydney, Australia",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29821515/pexels-photo-29821515/free-photo-of-cloud-gate-sculpture-in-millennium-park-chicago.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Majestic Palace Retreat",
-      desc: "A historic palace with grand courtyards, ornate interiors, and centuries-old stories",
-      rating: "3",
-      location: "London, UK",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29828027/pexels-photo-29828027/free-photo-of-scenic-winter-view-of-tatra-mountains-in-zakopane.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Frosted Pines Chalet",
-      desc: "A cozy chalet amidst snowy landscapes with fireplaces and hot cocoa waiting for you.",
-      rating: "4",
-      location: "Zurich, Switzerland",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29787589/pexels-photo-29787589/free-photo-of-stunning-star-trails-over-cao-b-ng-mountains.png?auto=compress&cs=tinysrgb&w=600",
-      title: "Rocky Ridge Adventure",
-      desc: "Rugged mountains with steep trails, perfect for climbing and adventure seekers.",
-      rating: "4.5",
-      location: "Sydney, Australia",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29848858/pexels-photo-29848858/free-photo-of-scenic-twilight-view-of-lakefront-in-lombardy.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Beautiful Beach House",
-      desc: "A stunning house located near the beach with amazing sea views.",
-      rating: "4.5",
-      location: "Los, Angles",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29851526/pexels-photo-29851526/free-photo-of-charming-waterfront-in-saint-tropez-france.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Royal Heritage Haven",
-      desc: "A grand palace with intricate carvings, vibrant frescoes, and rich cultural history dating back centuries.",
-      rating: "4",
-      location: "Paris, France",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29843678/pexels-photo-29843678/free-photo-of-ancient-rock-tomb-in-scenic-mugla-landscape.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Timeless Cityscape",
-      desc: "A cobblestone street surrounded by ancient buildings, quaint cafes, and iconic landmarks.",
-      rating: "3.5",
-      location: "Rome, Italy",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29821515/pexels-photo-29821515/free-photo-of-cloud-gate-sculpture-in-millennium-park-chicago.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Majestic Palace Retreat",
-      desc: "A historic palace with grand courtyards, ornate interiors, and centuries-old stories",
-      rating: "3",
-      location: "London, UK",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-    {
-      _id: "12345",
-      img: "https://images.pexels.com/photos/29828027/pexels-photo-29828027/free-photo-of-scenic-winter-view-of-tatra-mountains-in-zakopane.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Frosted Pines Chalet",
-      desc: "A cozy chalet amidst snowy landscapes with fireplaces and hot cocoa waiting for you.",
-      rating: "4",
-      location: "Zurich, Switzerland",
-      price: {
-        org: 250,
-        mrp: 300,
-        off: 17,
-      },
-    },
-  ]);
+  const location = useLocation();
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { location: loc, checkInDate, checkOutDate } = location.state || {};
+  const filter = loc ? `location=${loc}` : null;
+  
+  const getproperties = async () => {
+    console.log(typeof filter);
+    
+    setLoading(true);
+    await getAllProperties(filter).then((res) => {
+      console.log(res.data);
+      
+      setProperties(res.data);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    getproperties();
+  }, []);
 
   return (
     <Container>
-      <Property>
-        <CardWrapper>
-          {
-            properties.map((property) => (
-              <PropertyCard property={property}/>
-            ))
-          }
-        </CardWrapper>
-      </Property>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Property>
+          <CardWrapper>
+            {properties.properties &&
+              properties.properties.map((property) => (
+                <PropertyCard key={property._id} property={property} />
+              ))}
+          </CardWrapper>
+        </Property>
+      )}
     </Container>
-  )
+  );
 };
 
 export default PropertyListing;

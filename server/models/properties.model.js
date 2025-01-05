@@ -13,6 +13,10 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     rating: {
       type: Number,
       default: 3.5,
